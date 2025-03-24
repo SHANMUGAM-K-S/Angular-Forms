@@ -1,0 +1,20 @@
+<!-- <h1>Home page welcome you {{username}} </h1>
+
+<button (click)="goToLog()">Go to login page</button> -->
+
+
+<!--  -->
+
+<h1>This is my Home Page</h1>
+
+<h2>Users List</h2>
+
+<ol>
+@for (user of users; track user.id) {
+    <li>
+        <a routerLink="/user/{{user.id}}/{{user.name}}">{{user.name}}</a>
+        
+    </li>
+}
+
+</ol>

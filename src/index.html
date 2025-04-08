@@ -9,5 +9,69 @@
 </head>
 <body>
   <app-root></app-root>
+  from flask import Flask, render_template_string, redirect, url_for
+
+app = Flask(__name__)
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Actions</title>
+</head>
+<body>
+    <h1>Simple Webpage with 3 Buttons</h1>
+    <form method="post" action="/button1">
+        <button type="submit">Button 1</button>
+    </form>
+    <form method="post" action="/button2">
+        <button type="submit">Button 2</button>
+    </form>
+    <form method="post" action="/button3">
+        <button type="submit">Button 3</button>
+    </form>
+    <div style="margin-top: 20px;">
+        {{ message|safe }}
+    </div>
+</body>
+</html>
+"""
+
+SECOND_PAGE = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Second Page</title>
+</head>
+<body>
+    <h2>You are on the second page!</h2>
+    <button onclick="alert('You clicked the new page button!')">Click Me</button>
+</body>
+</html>
+"""
+
+@app.route('/', methods=['GET'])
+def home():
+    return render_template_string(HTML_TEMPLATE, message='')
+
+@app.route('/button1', methods=['POST'])
+def button1():
+    return render_template_string(HTML_TEMPLATE, message="<p>1st button clicked</p>")
+
+@app.route('/button2', methods=['POST'])
+def button2():
+    image_html = '<img src="https://via.placeholder.com/150" alt="Sample Image">'
+    return render_template_string(HTML_TEMPLATE, message=image_html)
+
+@app.route('/button3', methods=['POST'])
+def button3():
+    return redirect(url_for('second_page'))
+
+@app.route('/second')
+def second_page():
+    return render_template_string(SECOND_PAGE)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 </body>
 </html>
